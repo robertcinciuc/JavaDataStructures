@@ -1,7 +1,7 @@
 package robertcinciuc;
 
-import robertcinciuc.structures.LinkedList;
-import robertcinciuc.structures.Node;
+import robertcinciuc.structures.linkedList.LinkedList;
+import robertcinciuc.structures.linkedList.Node;
 
 public class Main {
 

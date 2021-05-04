@@ -1,7 +1,6 @@
-package robertcinciuc.tree;
+package robertcinciuc.structures.tree;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter

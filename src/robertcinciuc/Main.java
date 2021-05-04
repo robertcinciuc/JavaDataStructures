@@ -2,8 +2,7 @@ package robertcinciuc;
 
 import robertcinciuc.structures.linkedList.LinkedList;
 import robertcinciuc.structures.linkedList.Node;
-import robertcinciuc.tree.BinaryTree;
-import robertcinciuc.tree.BinaryTreeNode;
+import robertcinciuc.structures.tree.BinaryTree;
 
 public class Main {
 

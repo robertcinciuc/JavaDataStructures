@@ -1,4 +1,4 @@
-package robertcinciuc.structures;
+package robertcinciuc.structures.linkedList;
 
 public class LinkedList {
 

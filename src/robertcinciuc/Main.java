@@ -1,8 +1,12 @@
 package robertcinciuc;
 
+import robertcinciuc.structures.heap.Heap;
 import robertcinciuc.structures.linkedList.LinkedList;
 import robertcinciuc.structures.linkedList.Node;
 import robertcinciuc.structures.tree.BinaryTree;
+import robertcinciuc.structures.tree.BinaryTreeNode;
+
+import java.util.List;
 
 public class Main {
 
@@ -42,7 +46,7 @@ public class Main {
         }
     }
 
-    public static void testingBinaryTrees(){
+    public static void testingBinaryTrees() throws Exception {
 
 //        Create & insert into binary tree
         BinaryTree binaryTree = new BinaryTree(10);
@@ -59,12 +63,43 @@ public class Main {
 //        Print binary tree in preorder (left, data, right)
         binaryTree.printPreorder(binaryTree.getHead());
 
+//        Find element 60
+        BinaryTreeNode resultNode = binaryTree.findNode(binaryTree.getHead(), 60);
+        System.out.println("Result=" + resultNode.getData());
+
     }
-    public static void main(String[] args) {
+
+    public static void testingHeap(){
+
+        Heap heap = new Heap();
+        heap.insert(10);
+        heap.insert(24);
+        heap.insert(30);
+        heap.insert(14);
+        heap.insert(8);
+        heap.insert(50);
+        heap.insert(12);
+        heap.insert(64);
+        heap.insert(23);
+        heap.insert(50);
+        heap.insert(34);
+        heap.printOnLevels();
+
+//        Printing and deleting top of heap = HEAP SORT
+        System.out.println();
+        List<Integer> sortedList = heap.getSorted();
+        for(Integer elem: sortedList){
+            System.out.print(elem + " ");
+        }
+
+    }
+
+    public static void main(String[] args) throws Exception {
 
 //        testLinkedList();
 
-        testingBinaryTrees();
+//        testingBinaryTrees();
 
+        testingHeap();
     }
 }

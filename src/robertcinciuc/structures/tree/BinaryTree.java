@@ -49,4 +49,19 @@ public class BinaryTree {
             printPreorder(node.getRight());
         }
     }
+
+    public BinaryTreeNode findNode(BinaryTreeNode startNode, int data) throws Exception {
+
+        if(startNode == null){
+            throw new Exception("The passed node is null");
+        }else{
+            if(startNode.getData() == data){
+                return startNode;
+            }else if(data < startNode.getData()){
+                return this.findNode(startNode.getLeft(), data);
+            }else{
+                return this.findNode(startNode.getRight(), data);
+            }
+        }
+    }
 }

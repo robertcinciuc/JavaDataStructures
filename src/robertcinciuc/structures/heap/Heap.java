@@ -38,7 +38,6 @@ public class Heap {
         }
     }
 
-//    TODO: fix this method
     public void compareDown(Integer elem, int pos){
 
         int chosenPos = 0;
@@ -59,7 +58,7 @@ public class Heap {
             if(elem.compareTo(chosenChild) <= 0) {
                 this.elements.set(chosenPos, elem);
                 this.elements.set(pos, chosenChild);
-                this.compareDown(chosenChild, chosenPos);
+                this.compareDown(elem, chosenPos);
             }else{
                 return;
             }
@@ -95,17 +94,17 @@ public class Heap {
         this.elements.set(0, this.elements.get(this.elements.size() - 1));
         this.elements.remove(this.elements.size() - 1);
 
-        this.compareDown(this.elements.get(0), 0);
+        if(!this.elements.isEmpty()) {
+            this.compareDown(this.elements.get(0), 0);
+        }
         return result;
     }
 
     public List<Integer> getSorted(){
 
         List<Integer> result = new ArrayList<>();
-        int count = 0;
-        while(count < this.elements.size()){
+        while(!this.elements.isEmpty()){
             result.add(this.deleteTop());
-            count += 1;
         }
 
         return result;

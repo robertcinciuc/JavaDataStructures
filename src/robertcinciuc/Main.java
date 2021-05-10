@@ -85,15 +85,13 @@ public class Main {
         heap.insert(34);
         heap.printOnLevels();
 
-//        System.out.println();
-//        List<Integer> sortedList = heap.getSorted();
-//        for(Integer elem: sortedList){
-//            System.out.print(elem + " ");
-//        }
-
+//        Printing and deleting top of heap = HEAP SORT
         System.out.println();
-        heap.deleteTop();
-        heap.printOnLevels();
+        List<Integer> sortedList = heap.getSorted();
+        for(Integer elem: sortedList){
+            System.out.print(elem + " ");
+        }
+
     }
 
     public static void main(String[] args) throws Exception {

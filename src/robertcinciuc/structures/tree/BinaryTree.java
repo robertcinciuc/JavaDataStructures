@@ -42,6 +42,7 @@ public class BinaryTree {
         }
     }
 
+//    Printing the sequence in sorted ascending order
     public void printPreorder(BinaryTreeNode node){
         if(node != null){
             printPreorder(node.getLeft());

@@ -5,6 +5,8 @@ import robertcinciuc.structures.linkedList.LinkedList;
 import robertcinciuc.structures.linkedList.Node;
 import robertcinciuc.structures.tree.BinaryTree;
 import robertcinciuc.structures.tree.BinaryTreeNode;
+import robertcinciuc.structures.trie.TrieNode;
+import robertcinciuc.structures.trie.Trie;
 
 import java.util.List;
 
@@ -94,12 +96,26 @@ public class Main {
 
     }
 
+    public static void testingTries(){
+
+        Trie trie = new Trie();
+        trie.insert("abe", trie.getRoot());
+        trie.insert("ada", trie.getRoot());
+        trie.insert("bec", trie.getRoot());
+        trie.insert("bad", trie.getRoot());
+//        System.out.println(trie.toString());
+//        trie.printOnLevels();
+        trie.printWords("", trie.getRoot(), -1);
+    }
+
     public static void main(String[] args) throws Exception {
 
 //        testLinkedList();
 
 //        testingBinaryTrees();
 
-        testingHeap();
+//        testingHeap();
+
+        testingTries();
     }
 }

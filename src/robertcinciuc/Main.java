@@ -1,5 +1,6 @@
 package robertcinciuc;
 
+import robertcinciuc.algorithms.MergeSort;
 import robertcinciuc.structures.heap.Heap;
 import robertcinciuc.structures.linkedList.LinkedList;
 import robertcinciuc.structures.linkedList.Node;
@@ -8,6 +9,8 @@ import robertcinciuc.structures.tree.BinaryTreeNode;
 import robertcinciuc.structures.trie.TrieNode;
 import robertcinciuc.structures.trie.Trie;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Main {
@@ -103,9 +106,16 @@ public class Main {
         trie.insert("ada", trie.getRoot());
         trie.insert("bec", trie.getRoot());
         trie.insert("bad", trie.getRoot());
-//        System.out.println(trie.toString());
-//        trie.printOnLevels();
         trie.printWords("", trie.getRoot(), -1);
+//        trie.printOnLevels();
+    }
+
+    public static void testingMergeSort(){
+
+        MergeSort mergeSort = new MergeSort();
+        ArrayList<Integer> arr = new ArrayList<Integer>(Arrays.asList(10, 2, 34, 6, 2, 34, 8, 64, 95, 12, 54));
+        ArrayList<Integer> sortedArray = mergeSort.mergeSort(arr, 0, arr.size() - 1);
+        System.out.println(sortedArray.toString());
     }
 
     public static void main(String[] args) throws Exception {
@@ -116,6 +126,9 @@ public class Main {
 
 //        testingHeap();
 
-        testingTries();
+//        testingTries();
+
+        testingMergeSort();
+
     }
 }

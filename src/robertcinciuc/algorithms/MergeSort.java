@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-//TODO: fix - Index 1 out of bounds for length 1
 public class MergeSort {
 
     public ArrayList<Integer> mergeSort(ArrayList<Integer> arr, int l, int r){
 
-        if(r - l > 1){
+        if(r - l >= 1){
 
-            int m = (int)(1.0*(r-l)/2);
+            int m = (int)(r-l)/2 + l;
             ArrayList<Integer> left = this.mergeSort(arr, l, m);
-            ArrayList<Integer> right = this.mergeSort(arr, m, r);
+            ArrayList<Integer> right = this.mergeSort(arr, m+1, r);
             ArrayList<Integer> res = this.merge(left, right);
             return res;
 
@@ -46,11 +45,11 @@ public class MergeSort {
         }
 
         if( i < left.size()){
-            for(int ii = i; i < left.size(); ++ii){
+            for(int ii = i; ii < left.size(); ++ii){
                 res.add(left.get(ii));
             }
         }else if( j < right.size()){
-            for(int jj = j; j < right.size(); ++jj){
+            for(int jj = j; jj < right.size(); ++jj){
                 res.add(right.get(jj));
             }
         }

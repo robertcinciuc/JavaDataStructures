@@ -3,7 +3,6 @@ import java.util.*;
 class Result{
     public static void almostSorted(List<Integer> arr) {
         
-        
     }
 
 }

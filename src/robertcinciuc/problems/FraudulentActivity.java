@@ -12,62 +12,57 @@ class Result3{
     private static int maxVal = 200;
 
     public static int activityNotifications(List<Integer> expenditure, int d) {
-        Map<Integer, Integer> valFreq = createFreqMap(expenditure, d);
+        Map<Integer, Integer> valFreq = createFreqMap();
         int nbNotif = 0;
-        for(int i = d; i < expenditure.size(); ++i){
+        for(int i = 0; i < expenditure.size(); ++i){
 
+            if(i >= d){
 //              Iterate over sum freq and send notification here
-            float median;
-            List<Integer> arrForMedian = new ArrayList<>();
-            for(int j = 0; j <= maxVal; ++j){
-                if(valFreq.containsKey(j)){
+                float median = 0;
+                int halfMedian = -1;
+                int count = 0;
+                int prevJ = -1;
+                for(int j = 0; j < maxVal; ++j){
                     if(valFreq.get(j) > 0){
-                        int count = valFreq.get(j);
-                        while(count > 0){
-                            arrForMedian.add(j);
-                            count--;
+                        count += valFreq.get(j);
+
+                        if(d % 2 != 0){
+                            if(count == d / 2 + 1 || (count > d / 2 + 1 && count - valFreq.get(j) < d / 2 + 1)){
+                                median = j;
+                                break;
+                            }
+                        }else{
+                            if(count >= d/2 + 1){
+                                if(count - valFreq.get(j) < d/2){
+                                    median = j;
+                                }else{
+                                    median = (float)(prevJ + j) / 2f;
+                                }
+                                break;
+                            }
                         }
+                        prevJ = j;
                     }
                 }
+
+                if(expenditure.get(i) >= 2 * median){
+                    nbNotif++;
+                }
+
+                valFreq.put(expenditure.get(i - d), valFreq.get(expenditure.get(i - d)) - 1);
             }
-            median = getMedianExpenditure(arrForMedian);
-
-
-            if(expenditure.get(i) >= 2 * median){
-                nbNotif++;
-            }
-
-            valFreq.put(expenditure.get(i - d), valFreq.get(expenditure.get(i - d)) - 1);
-
-            if(valFreq.containsKey(expenditure.get(i))){
-                valFreq.put(expenditure.get(i), valFreq.get(expenditure.get(i)) + 1);
-            }else{
-                valFreq.put(expenditure.get(i), 1);
-            }
-
+            valFreq.put(expenditure.get(i), valFreq.get(expenditure.get(i)) + 1);
         }
 
         return nbNotif;
     }
 
-    private static Map<Integer, Integer> createFreqMap(List<Integer> expenditure, int d){
+    private static Map<Integer, Integer> createFreqMap(){
         Map<Integer, Integer> expenditureFreq = new HashMap<>();
-        for(int i = 0; i < d; ++i){
-            if(expenditureFreq.containsKey(expenditure.get(i))){
-                expenditureFreq.put(expenditure.get(i), expenditureFreq.get(expenditure.get(i) + 1));
-            }else{
-                expenditureFreq.put(expenditure.get(i), 1);
-            }
+        for(int i = 0; i <= maxVal; ++i){
+            expenditureFreq.put(i, 0);
         }
         return expenditureFreq;
-    }
-
-    private static float getMedianExpenditure(List<Integer> arr) {
-        int size = arr.size();
-        if (size % 2 == 0) {
-            return (arr.get(size / 2) + arr.get((size / 2) - 1)) / 2f;
-        }
-        return arr.get(size / 2);
     }
 
     public static void main(String[] args) throws IOException {

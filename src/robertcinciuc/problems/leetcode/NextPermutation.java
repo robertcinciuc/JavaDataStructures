@@ -8,7 +8,7 @@ public class NextPermutation {
 
         boolean descending = true;
         int pos = nums.length;
-        for(int i = nums.length - 2; i > 0; i--){
+        for(int i = nums.length - 2; i >= 0; i--){
             pos = i;
             if(nums[i] < nums[i + 1]){
                 descending = false;
@@ -30,14 +30,35 @@ public class NextPermutation {
 
             nums[posMin] = nums[pos];
             nums[pos] = min;
-//            copy array from pos to end
-//            sort this part
-//            put it back in the original array
-        }
 
+            Arrays.sort(nums, pos + 1, nums.length);
+        }
+    }
+
+    private void print(int[] arr){
+        for(int i = 0; i < arr.length; ++i){
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
     }
 
     public static void main(String[] args){
+        NextPermutation nextPermutation = new NextPermutation();
 
+//        int[] arr1 = new int[]{1,2,3};
+//        nextPermutation.nextPermutation(arr1);
+//        nextPermutation.print(arr1);
+//
+//        int[] arr2 = new int[]{3,2,1};
+//        nextPermutation.nextPermutation(arr2);
+//        nextPermutation.print(arr2);
+//
+//        int[] arr3 = new int[]{1,1,5};
+//        nextPermutation.nextPermutation(arr3);
+//        nextPermutation.print(arr3);
+
+        int[] arr4 = new int[]{1,2};
+        nextPermutation.nextPermutation(arr4);
+        nextPermutation.print(arr4);
     }
 }

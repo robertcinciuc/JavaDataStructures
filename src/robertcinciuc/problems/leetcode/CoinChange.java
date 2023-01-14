@@ -11,8 +11,10 @@ public class CoinChange {
         Map<Long, Integer> sumMinCoins = new HashMap<>();
 
         List<Integer> collect = Arrays.stream(coins).boxed().map(e -> e * -1).sorted().collect(Collectors.toList());
-        List<Integer> sortedDescending = collect.stream().map(e -> e * -1).sorted().collect(Collectors.toList());
-        int[] coinsDesc = sortedDescending.stream().mapToInt(e -> e).toArray();
+        int[] coinsDesc = new int[collect.size()];
+        for(int i = 0; i < collect.size(); ++i){
+            coinsDesc[i] = collect.get(i) * -1;
+        }
 
         makeChange(coinsDesc, amount, sumMinCoins, 0, 0);
 

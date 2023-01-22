@@ -64,23 +64,27 @@ public class LongestCommonSubsequence {
     public int longestCommonSubsequence(String text1, String text2){
 
         int[] twinFromText1 = new int[text2.length()];
+        List<List<Integer>> twinsFromText1 = new ArrayList<>();
         for(int i = 0; i < text2.length(); ++i){
             twinFromText1[i] = -1;
+            twinsFromText1.add(new ArrayList<>());
         }
 
         for(int i = 0; i < text1.length(); ++i){
             for(int j = 0; j < text2.length(); ++j){
-                if(text1.charAt(i) == text2.charAt(j) && twinFromText1[j] == -1){
+                if(text1.charAt(i) == text2.charAt(j)){
                     twinFromText1[j] = i;
-                    break;
+                    twinsFromText1.get(j).add(i);
                 }
             }
         }
 
         List<Integer> filteredArrayList = new ArrayList<>();
         for(int i = 0; i < text2.length(); ++i){
-            if(twinFromText1[i] != -1){
-                filteredArrayList.add(twinFromText1[i]);
+            if(!twinsFromText1.get(i).isEmpty()) {
+                for(int j = twinsFromText1.get(i).size() - 1; j >= 0; --j){
+                    filteredArrayList.add(twinsFromText1.get(i).get(j));
+                }
             }
         }
 
@@ -140,5 +144,6 @@ public class LongestCommonSubsequence {
         System.out.println(obj.longestCommonSubsequence("oxcpqrsvwf", "shmtulqrypy"));
         System.out.println(obj.longestCommonSubsequence("bl", "yby"));
         System.out.println(obj.longestCommonSubsequence("abcba", "abcbcba"));
+        System.out.println(obj.longestCommonSubsequence("pmjghexybyrgzczy", "hafcdqbgncrcbihkd"));
     }
 }

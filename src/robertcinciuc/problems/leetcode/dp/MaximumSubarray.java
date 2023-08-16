@@ -1,32 +1,42 @@
 package robertcinciuc.problems.leetcode.dp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MaximumSubarray {
     public int maxSubArray(int[] nums) {
 
-        int[][] sums = new int[nums.length][nums.length];
+        List<List<Integer>> sums = new ArrayList<>();
+        for(int i = 0; i < nums.length; ++i){
+            List<Integer> sums2 = new ArrayList<>();
+            for(int j = i; j < nums.length; ++j){
+                sums2.add(0);
+            }
+            sums.add(sums2);
+        }
 
         for(int i = 0; i < nums.length; ++i){
-            sums[i][i] = nums[i];
+            sums.get(i).set(0, nums[i]);
         }
 
         for(int delta = 1; delta < nums.length; ++delta){
             for(int i = 0; i < nums.length; i++){
 
-                if(i + delta < nums.length){
+                if(i + delta < sums.size()){
 
-                    int val1 = sums[i][i + delta - 1] + sums[i + delta][i + delta];
-                    int val2 = sums[i + 1][i + delta] + sums[i][i];
+                    int val1 = sums.get(i).get(delta - 1) + sums.get(i + delta).get(0);
+                    int val2 = sums.get(i + 1).get(delta-1) + sums.get(i).get(0);
 
-                    sums[i][i + delta] = Math.max(val1, val2);
+                    sums.get(i).set(delta, Math.max(val1, val2));
                 }
             }
         }
 
-        int maxi = sums[0][0];
-        for(int i = 0; i < sums.length; ++i){
-            for(int j = i; j < sums.length; ++j){
-                if(sums[i][j] > maxi){
-                    maxi = sums[i][j];
+        int maxi = sums.get(0).get(0);
+        for(int i = 0; i < sums.size(); ++i){
+            for(int j = 0; j < sums.get(i).size(); ++j){
+                if(sums.get(i).get(j) > maxi){
+                    maxi = sums.get(i).get(j);
                 }
             }
         }
@@ -36,9 +46,10 @@ public class MaximumSubarray {
 
     public static void main(String[] args) {
         var v = new MaximumSubarray();
-//        System.out.println(v.maxSubArray(new int[]{-2,1,-3,4,-1,2,1,-5,4}));
-//        System.out.println(v.maxSubArray(new int[]{5,4,-1,7,8}));
-//        System.out.println(v.maxSubArray(new int[]{1}));
+        System.out.println(v.maxSubArray(new int[]{-2,1,-3,4,-1,2,1,-5,4}));
+        System.out.println(v.maxSubArray(new int[]{5,4,-1,7,8}));
+        System.out.println(v.maxSubArray(new int[]{1}));
         System.out.println(v.maxSubArray(new int[]{-2, -1}));
+        System.out.println(v.maxSubArray(new int[]{-2,-3,-1}));
     }
 }

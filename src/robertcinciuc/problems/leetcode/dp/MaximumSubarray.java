@@ -1,47 +1,23 @@
 package robertcinciuc.problems.leetcode.dp;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MaximumSubarray {
     public int maxSubArray(int[] nums) {
+        int maxSum = Integer.MIN_VALUE;
+        int currentSum = 0;
 
-        List<List<Integer>> sums = new ArrayList<>();
-        for(int i = 0; i < nums.length; ++i){
-            List<Integer> sums2 = new ArrayList<>();
-            for(int j = i; j < nums.length; ++j){
-                sums2.add(0);
+        for (int i = 0; i < nums.length; i++) {
+            currentSum += nums[i];
+
+            if (currentSum > maxSum) {
+                maxSum = currentSum;
             }
-            sums.add(sums2);
-        }
 
-        for(int i = 0; i < nums.length; ++i){
-            sums.get(i).set(0, nums[i]);
-        }
-
-        for(int delta = 1; delta < nums.length; ++delta){
-            for(int i = 0; i < nums.length; i++){
-
-                if(i + delta < sums.size()){
-
-                    int val1 = sums.get(i).get(delta - 1) + sums.get(i + delta).get(0);
-                    int val2 = sums.get(i + 1).get(delta-1) + sums.get(i).get(0);
-
-                    sums.get(i).set(delta, Math.max(val1, val2));
-                }
+            if (currentSum < 0) {
+                currentSum = 0;
             }
         }
 
-        int maxi = sums.get(0).get(0);
-        for(int i = 0; i < sums.size(); ++i){
-            for(int j = 0; j < sums.get(i).size(); ++j){
-                if(sums.get(i).get(j) > maxi){
-                    maxi = sums.get(i).get(j);
-                }
-            }
-        }
-
-        return maxi;
+        return maxSum;
     }
 
     public static void main(String[] args) {

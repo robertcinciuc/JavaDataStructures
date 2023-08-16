@@ -1,4 +1,4 @@
-package robertcinciuc.problems.leetcode;
+package robertcinciuc.problems.leetcode.dp;
 
 public class LongestPalindromicSubstring {
 

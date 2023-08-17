@@ -7,11 +7,11 @@ public class UniquePaths {
 
     public int uniquePaths(int m, int n) {
 
-        Set<String> paths = new HashSet<>();
-        Set<String> partialPaths = new HashSet<>();
+        Set<Integer> paths = new HashSet<>();
+        Set<Integer> partialPaths = new HashSet<>();
 
         String initCoord = String.valueOf(0) + 0;
-        partialPaths.add(initCoord);
+        partialPaths.add(initCoord.hashCode());
         StringBuilder sb = new StringBuilder();
         sb.append(initCoord);
         recursiveSearch(0, 0, m, n, paths, partialPaths, sb);
@@ -19,9 +19,9 @@ public class UniquePaths {
         return paths.size();
     }
 
-    public void recursiveSearch(int x, int y, int m, int n, Set<String> paths, Set<String> partialPaths, StringBuilder currPath){
+    public void recursiveSearch(int x, int y, int m, int n, Set<Integer> paths, Set<Integer> partialPaths, StringBuilder currPath){
         if(x == (m - 1) && y == (n - 1)){
-            paths.add(currPath.toString());
+            paths.add(currPath.toString().hashCode());
             currPath.delete(currPath.length() - 2, currPath.length());
         }else{
 
@@ -31,8 +31,8 @@ public class UniquePaths {
                 currPath.append(sX);
                 currPath.append(sY);
 
-                if(!partialPaths.contains(currPath.toString())){
-                    partialPaths.add(currPath.toString());
+                if(!partialPaths.contains(currPath.toString().hashCode())){
+                    partialPaths.add(currPath.toString().hashCode());
                     recursiveSearch(x + 1, y, m, n, paths, partialPaths, currPath);
                 }
             }
@@ -43,8 +43,8 @@ public class UniquePaths {
                 currPath.append(sX);
                 currPath.append(sY);
 
-                if(!partialPaths.contains(currPath.toString())){
-                    partialPaths.add(currPath.toString());
+                if(!partialPaths.contains(currPath.toString().hashCode())){
+                    partialPaths.add(currPath.toString().hashCode());
                     recursiveSearch(x, y + 1, m, n, paths, partialPaths, currPath);
                 }
             }

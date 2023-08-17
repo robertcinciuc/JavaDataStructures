@@ -1,54 +1,45 @@
 package robertcinciuc.problems.leetcode.dp;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class UniquePaths {
 
     public int uniquePaths(int m, int n) {
 
-        Set<Integer> paths = new HashSet<>();
-        Set<Integer> partialPaths = new HashSet<>();
+        int[][] paths = new int[m][n];
+        Deque<Integer> xQueue = new ArrayDeque<>();
+        Deque<Integer> yQueue = new ArrayDeque<>();
+        if(m > 1 && n > 1){
+            xQueue.add(1);
+            yQueue.add(1);
+        }
 
-        String initCoord = String.valueOf(0) + 0;
-        partialPaths.add(initCoord.hashCode());
-        StringBuilder sb = new StringBuilder();
-        sb.append(initCoord);
-        recursiveSearch(0, 0, m, n, paths, partialPaths, sb);
+        for(int i = 0; i < m; ++i){
+            paths[i][0] = 1;
+        }
 
-        return paths.size();
-    }
+        for(int j = 0; j < n; ++j){
+            paths[0][j] = 1;
+        }
 
-    public void recursiveSearch(int x, int y, int m, int n, Set<Integer> paths, Set<Integer> partialPaths, StringBuilder currPath){
-        if(x == (m - 1) && y == (n - 1)){
-            paths.add(currPath.toString().hashCode());
-            currPath.delete(currPath.length() - 2, currPath.length());
-        }else{
+        while(xQueue.size() > 0 && yQueue.size() > 0){
+            int x = xQueue.pop();
+            int y = yQueue.pop();
 
-            if(x < (m - 1)){
-                String sX = String.valueOf(x + 1);
-                String sY = String.valueOf(y);
-                currPath.append(sX);
-                currPath.append(sY);
+            paths[x][y] = paths[x-1][y] + paths[x][y-1];
 
-                if(!partialPaths.contains(currPath.toString().hashCode())){
-                    partialPaths.add(currPath.toString().hashCode());
-                    recursiveSearch(x + 1, y, m, n, paths, partialPaths, currPath);
-                }
+            if(x < m - 1){
+                xQueue.add(x + 1);
+                yQueue.add(y);
             }
 
-            if(y < (n - 1)){
-                String sX = String.valueOf(x);
-                String sY = String.valueOf(y + 1);
-                currPath.append(sX);
-                currPath.append(sY);
-
-                if(!partialPaths.contains(currPath.toString().hashCode())){
-                    partialPaths.add(currPath.toString().hashCode());
-                    recursiveSearch(x, y + 1, m, n, paths, partialPaths, currPath);
-                }
+            if(y < n - 1){
+                xQueue.add(x);
+                yQueue.add(y + 1);
             }
         }
+
+        return paths[m-1][n-1];
     }
 
     public static void main(String[] args) {

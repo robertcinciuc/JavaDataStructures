@@ -21,19 +21,9 @@ public class MinimumPathSum {
     }
 
     public void recursiveSearch(int x, int y, int m, int n, int[][] grid, int[][] paths){
-        if(x > 0 && paths[x - 1][y] > paths[x][y] + grid[x - 1][y]){
-            paths[x - 1][y] = paths[x][y] + grid[x - 1][y];
-            recursiveSearch(x - 1, y, m, n, grid, paths);
-        }
-
         if(x < m - 1 && paths[x + 1][y] > paths[x][y] + grid[x + 1][y]){
             paths[x + 1][y] = paths[x][y] + grid[x + 1][y];
             recursiveSearch(x + 1, y, m, n, grid, paths);
-        }
-
-        if(y > 0 && paths[x][y - 1] > paths[x][y] + grid[x][y - 1]){
-            paths[x][y - 1] = paths[x][y] + grid[x][y - 1];
-            recursiveSearch(x, y - 1, m, n, grid, paths);
         }
 
         if(y < n - 1 && paths[x][y + 1] > paths[x][y] + grid[x][y + 1]){

@@ -2,24 +2,13 @@ package robertcinciuc.problems.leetcode.tree;
 
 public class RecoverBinarySearchTree {
 
+    TreeNode prev = null;
     TreeNode first = null;
-    TreeNode firstOrigin = null;
-
     TreeNode second = null;
-    TreeNode secondOrigin = null;
 
     public void recoverTree(TreeNode root) {
-        search(root, Long.MIN_VALUE, null, Long.MAX_VALUE, null);
-
-        if(second == null){
-            swap(first, firstOrigin);
-        }else{
-            if(firstOrigin.equals(secondOrigin)){
-                swap(first, second);
-            }else if(first == secondOrigin){
-                swap(firstOrigin, second);
-            }
-        }
+        search(root);
+        swap(first, second);
     }
 
     public void swap(TreeNode n1, TreeNode n2){
@@ -28,34 +17,22 @@ public class RecoverBinarySearchTree {
         n2.val = tmpVal;
     }
 
-    public void search(TreeNode node, long min, TreeNode minFrom, long max, TreeNode maxFrom){
+    public void search(TreeNode node){
         if(node == null){
             return;
         }
 
-        if(node.val > max){
-            if(first == null){
-                first = node;
-                firstOrigin = maxFrom;
-            }else{
-                second = node;
-                secondOrigin = maxFrom;
-            }
+        search(node.left);
+
+        if(prev != null && prev.val > node.val){
+            if(first == null)
+                first = prev;
+            second = node;
         }
 
-        if(node.val < min){
-            if(first == null){
-                first = node;
-                firstOrigin = minFrom;
-            }else{
-                second = node;
-                secondOrigin = minFrom;
-            }
-        }
+        prev = node;
 
-        search(node.left, min, minFrom, node.val, node);
-
-        search(node.right, node.val, node, max, maxFrom);
+        search(node.right);
     }
 
     public static void main(String[] args) {

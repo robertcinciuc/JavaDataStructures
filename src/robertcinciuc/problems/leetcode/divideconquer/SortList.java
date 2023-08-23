@@ -11,63 +11,35 @@ public class SortList {
             return head;
         }
 
-        ListNode it = head;
-        int i = 1;
-        while(it.next != null){
-            it = it.next;
-            i++;
-        }
-
-        recursiveDisect(head, it, i);
-
-        return head;
-    }
-
-    public void recursiveDisect(ListNode start, ListNode end, int size){
-        if(start == end){
-            return;
-        }
-
-        ListNode slow = start;
-        ListNode fast = start.next.next;
-        if(size == 2){
-            fast = slow.next;
-        }
-        int i = 1;
-        while(fast != end && fast.next != end){
+        ListNode prev = null;
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast != null && fast.next != null){
+            prev = slow;
             slow = slow.next;
             fast = fast.next.next;
-            ++i;
         }
 
-        recursiveDisect(start, slow, i);
-        recursiveDisect(slow.next, end, size - i);
+        prev.next = null;
 
-        ListNode itNew = mergeHelper(start, end, slow);
-        ListNode it = start;
-        while(itNew != null){
-            it.val = itNew.val;
-            it = it.next;
-            itNew = itNew.next;
-        }
+        ListNode l1 = sortList(head);
+        ListNode l2 = sortList(slow);
+
+        return mergeHelper(l1, l2);
     }
 
-    public ListNode mergeHelper(ListNode start, ListNode end, ListNode slow){
-        ListNode n1 = start;
-        ListNode n2 = slow.next;
+    public ListNode mergeHelper(ListNode start, ListNode slow){
         ListNode newHead = null;
         ListNode n3 = null;
-        while(n1 != slow.next && n2 != end.next){
+        while(start != null && slow != null){
             ListNode newy = new ListNode();
 
-            if(n2 != null){
-                if(n1.val < n2.val){
-                    newy.val = n1.val;
-                    n1 = n1.next;
-                }else{
-                    newy.val = n2.val;
-                    n2 = n2.next;
-                }
+            if(start.val < slow.val){
+                newy.val = start.val;
+                start = start.next;
+            }else{
+                newy.val = slow.val;
+                slow = slow.next;
             }
 
             if(newHead == null){
@@ -78,14 +50,20 @@ public class SortList {
             n3 = newy;
         }
 
-        if(n1 != slow.next){
-            ListNode newy = new ListNode();
-            newy.val = n1.val;
-            n3.next = newy;
-        }else if(n2 != end.next){
-            ListNode newy = new ListNode();
-            newy.val = n2.val;
-            n3.next = newy;
+        if(start != null){
+            if (newHead == null) {
+                newHead = start;
+            }else{
+                n3.next = start;
+            }
+        }
+
+        if(slow != null){
+            if (newHead == null) {
+                newHead = slow;
+            }else{
+                n3.next = slow;
+            }
         }
 
         return newHead;
@@ -105,13 +83,13 @@ public class SortList {
         ListNode node4 = new ListNode();
         node4.val = 1;
 
-//        ListNode node5 = new ListNode();
-//        node5.val = 5;
+        ListNode node5 = new ListNode();
+        node5.val = 5;
 
         node1.next = node2;
         node2.next = node3;
         node3.next = node4;
-//        node4.next = node5;
+        node4.next = node5;
 
         ListNode listNode = v.sortList(node1);
         System.out.println();

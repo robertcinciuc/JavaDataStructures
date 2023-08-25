@@ -28,17 +28,19 @@ public class LongestSubstringWithAtLeastKRepeatingCharacters {
         Map<Character, Pair> lesserChars = new HashMap<>();
         Set<Character> dontAdd = new HashSet<>();
         for(int i = start; i < end; ++i){
-            if(!dontAdd.contains(s.charAt(i))){
-                if(!lesserChars.containsKey(s.charAt(i))){
-                    lesserChars.put(s.charAt(i), new Pair(i, 1));
-                }else{
-                    if(lesserChars.get(s.charAt(i)).freq + 1 >= k){
-                        lesserChars.remove(s.charAt(i));
-                        dontAdd.add(s.charAt(i));
+            if(k > 1){
+                if(!dontAdd.contains(s.charAt(i))){
+                    if(!lesserChars.containsKey(s.charAt(i))){
+                        lesserChars.put(s.charAt(i), new Pair(i, 1));
                     }else{
-                        Pair pair = lesserChars.get(s.charAt(i));
-                        pair.freq += 1;
-                        pair.pos.add(i);
+                        if(lesserChars.get(s.charAt(i)).freq + 1 >= k){
+                            lesserChars.remove(s.charAt(i));
+                            dontAdd.add(s.charAt(i));
+                        }else{
+                            Pair pair = lesserChars.get(s.charAt(i));
+                            pair.freq += 1;
+                            pair.pos.add(i);
+                        }
                     }
                 }
             }
@@ -85,5 +87,6 @@ public class LongestSubstringWithAtLeastKRepeatingCharacters {
         System.out.println(v.longestSubstring("aaabb", 3));
         System.out.println(v.longestSubstring("ababbc", 2));
         System.out.println(v.longestSubstring("baaabcb", 3));
+        System.out.println(v.longestSubstring("abcdedghijklmnopqrstuvwxyz", 1));
     }
 }

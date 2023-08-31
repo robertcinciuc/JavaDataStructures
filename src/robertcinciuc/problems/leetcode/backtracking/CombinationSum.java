@@ -7,47 +7,27 @@ public class CombinationSum {
 
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
 
-        Set<Map<Integer, Integer>> seen = new HashSet<>();
-        Set<Map<Integer, Integer>> resp = new HashSet<>();
-        Map<Integer, Integer> current = new HashMap<>();
-        for(int candidate: candidates){
-            current.put(candidate, 0);
-        }
+        List<List<Integer>> resp = new ArrayList<>();
+        List<Integer> current = new ArrayList<>();
+        Arrays.sort(candidates);
 
-        recursiveSearch(seen, resp, current, 0, candidates, target);
+        recursiveSearch(resp, current, 0, candidates, target, 0);
 
-        List<List<Integer>> respFinal = new ArrayList<>();
-        for(Map<Integer, Integer> respValues: resp){
-            List<Integer> possibility = new ArrayList<>();
-            for(Integer val : respValues.keySet()){
-                int valFreq = respValues.get(val);
-                while(valFreq > 0){
-                    possibility.add(val);
-                    valFreq--;
-                }
-            }
-
-            respFinal.add(possibility);
-        }
-
-        return respFinal;
+        return resp;
     }
 
-    public void recursiveSearch(Set<Map<Integer, Integer>> seen, Set<Map<Integer, Integer>> resp, Map<Integer, Integer> current, int currSum, int[] candidates, int target){
+    public void recursiveSearch(List<List<Integer>> resp, List<Integer> current, int currSum, int[] candidates, int target, int pos){
         if(currSum > target){
             return;
         }
         if(currSum == target){
-            resp.add(current.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+            resp.add(List.copyOf(current));
         }
 
-        for(int candidate: candidates){
-            current.merge(candidate, 1, Integer::sum);
-            if(!seen.contains(current)){
-                seen.add(current.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
-                recursiveSearch(seen, resp, current, currSum + candidate, candidates, target);
-            }
-            current.merge(candidate, 1, (prev, v) -> prev - v);
+        for(int i = pos; i < candidates.length; ++i){
+            current.add(candidates[i]);
+            recursiveSearch(resp, current, currSum + candidates[i], candidates, target, i);
+            current.remove(current.size() - 1);
         }
     }
 

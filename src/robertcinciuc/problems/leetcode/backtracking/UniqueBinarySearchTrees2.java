@@ -1,5 +1,7 @@
 package robertcinciuc.problems.leetcode.backtracking;
 
+import com.sun.source.tree.Tree;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,45 +11,40 @@ public class UniqueBinarySearchTrees2 {
 
     public List<TreeNode> generateTrees(int n) {
 
-        Set<TreeNode> resp = new HashSet<>();
-        recursiveCreation(1, n + 1, resp, null, null, "");
+        Set<TreeNode> resp = recursiveCreation(1, n + 1, null);
 
         return filterSmallerTrees(resp, n);
     }
 
 //    Start: inclusive; End: exclusive
-    public void recursiveCreation(int start, int end, Set<TreeNode> resp, TreeNode root, TreeNode parent, String direction){
+    public Set<TreeNode> recursiveCreation(int start, int end, TreeNode root){
         if(start >= end){
-            return;
+            HashSet<TreeNode> objects = new HashSet<>();
+            objects.add(null);
+            return objects;
         }
 
+        Set<TreeNode> currentResponse = new HashSet<>();
         for(int i = start; i < end; ++i){
             TreeNode current = new TreeNode();
             current.val = i;
 
-            if(parent != null && !direction.isEmpty()){
-                if(direction.equals("right")){
-                    parent.right = current;
-                }else{
-                    parent.left = current;
-                }
-            }
-
-            if(parent == null){
+            boolean chancedRoot = false;
+            if(root == null){
                 root = current;
+                chancedRoot = true;
             }
 
-            recursiveCreation(start, i, resp, root, current, "left");
-            recursiveCreation(i + 1, end, resp, root, current, "right");
+            Set<TreeNode> leftList = recursiveCreation(start, i, root);
+            Set<TreeNode> rightList = recursiveCreation(i + 1, end, root);
+            currentResponse.addAll(combine(leftList, rightList, current));
 
-            if(current.left == null && current.right == null){
-                resp.add(deepCopyNode(root));
-            }
-
-            if(parent == null){
+            if(chancedRoot){
                 root = null;
             }
         }
+
+        return currentResponse;
     }
 
     private static TreeNode deepCopyNode(TreeNode treeNode){
@@ -83,6 +80,22 @@ public class UniqueBinarySearchTrees2 {
         int left = countChildren(treeNode.left);
         int right = countChildren(treeNode.right);
         return left + right + 1;
+    }
+
+    private static Set<TreeNode> combine(Set<TreeNode> leftList, Set<TreeNode> rightList, TreeNode treeNode){
+        Set<TreeNode> combined = new HashSet<>();
+
+        for(TreeNode left: leftList){
+            for(TreeNode right: rightList){
+                TreeNode newTreeNode = new TreeNode();
+                newTreeNode.val = treeNode.val;
+                newTreeNode.left = deepCopyNode(left);
+                newTreeNode.right = deepCopyNode(right);
+                combined.add(newTreeNode);
+            }
+        }
+
+        return combined;
     }
 
     public static void main(String[] args) {

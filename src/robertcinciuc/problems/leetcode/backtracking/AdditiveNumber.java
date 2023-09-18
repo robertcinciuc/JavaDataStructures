@@ -14,11 +14,9 @@ public class AdditiveNumber {
         String stringB = removeTrailingZeros(num.substring(bStart, cStart));
         String stringC = removeTrailingZeros(num.substring(cStart, cEnd));
 
-        if(!stringA.equals(num.substring(aStart, bStart)) ||
-        !stringB.equals(num.substring(bStart, cStart)) ||
-        !stringC.equals(num.substring(cStart, cEnd))){
-            return false;
-        }
+        boolean aRight = stringA.equals(num.substring(aStart, bStart));
+        boolean bRight = stringB.equals(num.substring(bStart, cStart));
+        boolean cRight = stringC.equals(num.substring(cStart, cEnd));
 
         long a = Long.parseLong(num.substring(aStart, bStart));
         long b = Long.parseLong(num.substring(bStart, cStart));
@@ -28,7 +26,7 @@ public class AdditiveNumber {
         int lenC = cEnd - cStart;
 
         boolean additiveNb = false;
-        if(a + b == c){
+        if(a + b == c && aRight && bRight && cRight){
             if(cEnd == num.length()){
                 additiveNb = true;
             }else{
@@ -37,7 +35,7 @@ public class AdditiveNumber {
         }
 
         if(!additiveNb){
-            if(lenC < Math.max(lenA, lenB)){
+            if(lenC < Math.max(lenA, lenB) && aRight){
                 int delta = Math.max(lenA, lenB) - lenC;
                 additiveNb = recursiveSearch(num, aStart, bStart + 1, cStart + 1, cEnd + 1 + delta);
             }else{
@@ -45,11 +43,11 @@ public class AdditiveNumber {
             }
         }
 
-        if(!additiveNb){
+        if(!additiveNb && aRight && bRight){
             additiveNb = recursiveSearch(num, aStart, bStart, cStart + 1, cEnd + 1);
         }
 
-        if(!additiveNb && a + b > c && (cEnd - cStart + 1) <= (Math.max(bStart - aStart, cStart - bStart) + 1)){
+        if(aRight && bRight && !additiveNb && a + b > c && (cEnd - cStart + 1) <= (Math.max(bStart - aStart, cStart - bStart) + 1)){
             additiveNb = recursiveSearch(num, aStart, bStart, cStart, cEnd + 1);
         }
 
@@ -80,6 +78,7 @@ public class AdditiveNumber {
 //        System.out.println(v.isAdditiveNumber("1023"));
 //        System.out.println(v.isAdditiveNumber("101"));
 //        System.out.println(v.isAdditiveNumber("11112233558"));
-        System.out.println(v.isAdditiveNumber("12012122436"));
+//        System.out.println(v.isAdditiveNumber("12012122436"));
+        System.out.println(v.isAdditiveNumber("1002003005008001300"));
     }
 }

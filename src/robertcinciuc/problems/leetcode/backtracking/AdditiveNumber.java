@@ -23,6 +23,10 @@ public class AdditiveNumber {
         long a = Long.parseLong(num.substring(aStart, bStart));
         long b = Long.parseLong(num.substring(bStart, cStart));
         long c = Long.parseLong(num.substring(cStart, cEnd));
+        int lenA = bStart - aStart;
+        int lenB = cStart - bStart;
+        int lenC = cEnd - cStart;
+
         boolean additiveNb = false;
         if(a + b == c){
             if(cEnd == num.length()){
@@ -33,14 +37,19 @@ public class AdditiveNumber {
         }
 
         if(!additiveNb){
-            additiveNb = recursiveSearch(num, aStart, bStart + 1, cStart + 1, cEnd + 1);
+            if(lenC < Math.max(lenA, lenB)){
+                int delta = Math.max(lenA, lenB) - lenC;
+                additiveNb = recursiveSearch(num, aStart, bStart + 1, cStart + 1, cEnd + 1 + delta);
+            }else{
+                additiveNb = recursiveSearch(num, aStart, bStart + 1, cStart + 1, cEnd + 1);
+            }
         }
 
         if(!additiveNb){
             additiveNb = recursiveSearch(num, aStart, bStart, cStart + 1, cEnd + 1);
         }
 
-        if(!additiveNb && (cEnd - cStart + 1) <= (Math.max(bStart - aStart, cStart - bStart) + 1)){
+        if(!additiveNb && a + b > c && (cEnd - cStart + 1) <= (Math.max(bStart - aStart, cStart - bStart) + 1)){
             additiveNb = recursiveSearch(num, aStart, bStart, cStart, cEnd + 1);
         }
 
@@ -70,6 +79,7 @@ public class AdditiveNumber {
 //        System.out.println(v.isAdditiveNumber("112358"));
 //        System.out.println(v.isAdditiveNumber("1023"));
 //        System.out.println(v.isAdditiveNumber("101"));
-        System.out.println(v.isAdditiveNumber("11112233558"));
+//        System.out.println(v.isAdditiveNumber("11112233558"));
+        System.out.println(v.isAdditiveNumber("12012122436"));
     }
 }

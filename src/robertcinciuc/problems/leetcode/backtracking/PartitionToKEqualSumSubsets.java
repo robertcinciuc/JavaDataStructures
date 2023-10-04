@@ -5,69 +5,39 @@ import java.util.*;
 public class PartitionToKEqualSumSubsets {
 
     public boolean canPartitionKSubsets(int[] nums, int k) {
-        Map<Integer, Integer> left = new HashMap<>();
-        for(int elem: nums){
-            left.merge(elem, 1, Integer::sum);
+        int sum = Arrays.stream(nums).sum();
+        boolean[] used = new boolean[nums.length];
+
+        if (sum % k != 0) {
+            return false;
         }
 
-        List<Map<Integer, Integer>> current = new ArrayList<>();
-        for(int i = 0; i < k; ++i){
-            current.add(new HashMap<>());
-        }
-
-        return recursiveSearch(left, current, k);
+        Arrays.sort(nums);
+        return recursiveSearch(nums, k, 0, 0, used, sum / k);
     }
 
-    public boolean recursiveSearch(Map<Integer, Integer> left, List<Map<Integer, Integer>> current, int k){
-        if(allUsed(left) && allEqual(current)){
+    private boolean recursiveSearch(int[] nums, int k, int currSum, int idx, boolean[] used, int target) {
+        if (k == 1) {
             return true;
         }
 
-        for(Map.Entry<Integer, Integer> entry: left.entrySet()){
-            if(entry.getValue() > 0){
-//              put into existing
-                for(Map<Integer, Integer> collect : current){
-                    left.merge(entry.getKey(), 1, (prev, v) -> prev - v);
-                    collect.merge(entry.getKey(), 1, Integer::sum);
-                    boolean tmpResp = recursiveSearch(left, current, k);
-                    if(tmpResp){
-                        return true;
-                    }
-                    left.merge(entry.getKey(), 1, Integer::sum);
-                    collect.merge(entry.getKey(), 1, (prev, v) -> prev - v);
-                }
+        if (currSum == target) {
+            return recursiveSearch(nums, k - 1, 0, 0, used, target);
+        }
+
+        for (int i = idx; i < nums.length; i++) {
+            if (used[i] || i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) {
+                continue;
             }
+
+            used[i] = true;
+            if (recursiveSearch(nums, k, currSum + nums[i], i + 1, used, target)) {
+                return true;
+            }
+            used[i] = false;
         }
 
         return false;
-    }
-
-    private static boolean allUsed(Map<Integer, Integer> left){
-        for(Map.Entry<Integer, Integer> entry: left.entrySet()){
-            if(entry.getValue() > 0){
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static boolean allEqual(List<Map<Integer, Integer>> current){
-        int tmp = 0;
-        boolean first = true;
-        for(Map<Integer, Integer> collection : current){
-            int tmp1 = collection.entrySet().stream().map(e -> e.getValue() * e.getKey()).reduce(0, Integer::sum);
-            if(first){
-                first = false;
-                tmp = tmp1;
-            }
-
-            if(tmp != tmp1){
-                return false;
-            }
-        }
-
-        return true;
     }
 
     public static void main(String[] args) {

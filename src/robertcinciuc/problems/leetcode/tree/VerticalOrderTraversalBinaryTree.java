@@ -66,7 +66,7 @@ public class VerticalOrderTraversalBinaryTree {
 
         int minIndex = getMinIndex(rawResult);
         List<List<Integer>> result = new ArrayList<>(rawResult.size());
-        for(int i = minIndex; i <= minIndex * -2; ++i){
+        for(int i = minIndex; i <= transformedResult.size(); ++i){
             if(transformedResult.get(i) != null){
                 result.add(i - minIndex, transformedResult.get(i).stream().filter(Objects::nonNull).collect(Collectors.toList()));
             }
@@ -97,20 +97,26 @@ public class VerticalOrderTraversalBinaryTree {
     }
 
     public static void main(String[] args){
+//        TreeNode treeNode = new TreeNode();
+//        treeNode.val = 3;
+//        TreeNode treeNodel = new TreeNode();
+//        treeNodel.val = 9;
+//        TreeNode treeNoder = new TreeNode();
+//        treeNoder.val = 20;
+//        treeNode.left = treeNodel;
+//        treeNode.right = treeNoder;
+//        TreeNode treeNoderl = new TreeNode();
+//        treeNoderl.val = 15;
+//        TreeNode treeNoderr = new TreeNode();
+//        treeNoderr.val = 7;
+//        treeNoder.left = treeNoderl;
+//        treeNoder.right = treeNoderr;
+
         TreeNode treeNode = new TreeNode();
-        treeNode.val = 3;
-        TreeNode treeNodel = new TreeNode();
-        treeNodel.val = 9;
+        treeNode.val = 0;
         TreeNode treeNoder = new TreeNode();
-        treeNoder.val = 20;
-        treeNode.left = treeNodel;
+        treeNoder.val = 1;
         treeNode.right = treeNoder;
-        TreeNode treeNoderl = new TreeNode();
-        treeNoderl.val = 15;
-        TreeNode treeNoderr = new TreeNode();
-        treeNoderr.val = 7;
-        treeNoder.left = treeNoderl;
-        treeNoder.right = treeNoderr;
 
         VerticalOrderTraversalBinaryTree verticalTraversal = new VerticalOrderTraversalBinaryTree();
         System.out.println(verticalTraversal.verticalTraversal(treeNode));
